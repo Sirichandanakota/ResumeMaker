@@ -1,0 +1,28 @@
+{
+  "name": "ResumeMaker",
+  "version": "1.0.0",
+  "description": "Professional Resume Builder with MongoDB Authentication",
+  "main": "BACKEND/server.js",
+  "scripts": {
+    "dev": "concurrently \"cd BACKEND && npm run dev\" \"cd FRONTEND && npm run dev\"",
+    "backend": "cd BACKEND && npm run dev",
+    "frontend": "cd FRONTEND && npm run dev",
+    "build": "cd FRONTEND && npm run build",
+    "start": "cd BACKEND && npm start",
+    "test": "cd BACKEND && npm test",
+    "deploy:backend": "git subtree push --prefix BACKEND heroku main",
+    "deploy:frontend": "cd FRONTEND && npm run build && netlify deploy --prod"
+  },
+  "keywords": [
+    "resume",
+    "builder",
+    "mongodb",
+    "authentication",
+    "react"
+  ],
+  "author": "ResumeMaker",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
