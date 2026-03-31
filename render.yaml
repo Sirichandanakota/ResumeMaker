@@ -5,15 +5,18 @@ services:
     region: oregon
     rootDir: BACKEND
     plan: free
-    buildCommand: npm install
+    buildCommand: npm install --legacy-peer-deps
     startCommand: npm start
     envVars:
+      - key: MONGODB_URI
+        scope: build
+        value: mongodb+srv://kotasirichandana7:chandana2082@resumemaker.myex2ke.mongodb.net/resumemaker
       - key: MONGODB_URI
         scope: run
         value: mongodb+srv://kotasirichandana7:chandana2082@resumemaker.myex2ke.mongodb.net/resumemaker
       - key: JWT_SECRET
         scope: run
-        value: your_jwt_secret_key_change_this_in_production
+        value: resume_maker_jwt_secret_key_prod_2026
       - key: PORT
         scope: run
         value: 5000
