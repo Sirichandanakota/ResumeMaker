@@ -3,6 +3,7 @@ services:
     name: resume-maker-backend
     env: node
     region: oregon
+    rootDir: BACKEND
     plan: free
     buildCommand: npm install
     startCommand: npm start
