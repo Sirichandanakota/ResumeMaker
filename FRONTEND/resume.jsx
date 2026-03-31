@@ -192,7 +192,6 @@ const TemplateCard2Column = () => (
 
 // --- 1. PROFESSIONAL AUTH PAGES ---
 function LoginPage({ onLogin, onSwitchToSignUp, onBack }) {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -266,10 +265,6 @@ function LoginPage({ onLogin, onSwitchToSignUp, onBack }) {
                 <span>{error}</span>
               </div>
             )}
-            <div>
-              <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Full Name</label>
-              <input type="text" required value={name} onChange={(e) => setName(e.target.value)} disabled={loading} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white disabled:opacity-50 disabled:cursor-not-allowed" placeholder="Enter your full name" />
-            </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Email Address</label>
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white disabled:opacity-50 disabled:cursor-not-allowed" placeholder="you@example.com" />
