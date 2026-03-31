@@ -49,15 +49,21 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'Server running' });
 });
 
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  process.exit(0);
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Server error' });
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`\n🚀 ResumeMaker Backend running on http://localhost:${PORT}`);
-  console.log(`📊 MongoDB: ${process.env.MONGODB_URI.split('@')[1]}`);
-  console.log(`🔐 JWT Secret configured\n`);
 });
