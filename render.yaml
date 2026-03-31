@@ -5,4 +5,5 @@ services:
     region: oregon
     rootDir: BACKEND
     plan: free
+    buildCommand: npm install --legacy-peer-deps
     startCommand: npm start
