@@ -1,0 +1,22 @@
+{
+  "name": "resume-maker-server",
+  "version": "1.0.0",
+  "description": "MERN Resume Maker Backend Server",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["resume", "mern", "express", "mongodb"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  }
+}
