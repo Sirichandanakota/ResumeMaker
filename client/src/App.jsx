@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import TemplatesPage from './pages/TemplatesPage';
 import ResumeEditor from './pages/ResumeEditor';
+import Footer from './components/Footer';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -80,16 +81,21 @@ export default function App() {
 
   if (currentPage === 'templates') {
     return (
-      <TemplatesPage 
-        userEmail={userEmail}
-        userName={userFullName ? userFullName.split(' ')[0] : userEmail?.split('@')[0] || 'User'}
-        onSelect={(tmpl) => {
-          setTemplate(tmpl);
-          setCurrentPage('editor');
-        }}
-        onLogout={handleLogout}
-        onBack={() => setCurrentPage('home')}
-      />
+      <div className="flex flex-col min-h-screen">
+        <div className="flex-grow">
+          <TemplatesPage 
+            userEmail={userEmail}
+            userName={userFullName ? userFullName.split(' ')[0] : userEmail?.split('@')[0] || 'User'}
+            onSelect={(tmpl) => {
+              setTemplate(tmpl);
+              setCurrentPage('editor');
+            }}
+            onLogout={handleLogout}
+            onBack={() => setCurrentPage('home')}
+          />
+        </div>
+        <Footer />
+      </div>
     );
   }
 
@@ -106,10 +112,15 @@ export default function App() {
   }
 
   return (
-    <HomePage 
-      userEmail={userEmail}
-      onLogout={handleLogout}
-      onNavigate={handleNavigate}
-    />
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-grow">
+        <HomePage 
+          userEmail={userEmail}
+          onLogout={handleLogout}
+          onNavigate={handleNavigate}
+        />
+      </div>
+      <Footer />
+    </div>
   );
 }
