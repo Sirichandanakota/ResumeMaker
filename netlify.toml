@@ -1,11 +1,11 @@
 [build]
-  base = "FRONTEND"
+  base = "client"
   publish = "dist"
   command = "npm run build"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://resume-maker-backend.onrender.com/api/:splat"
+  to = "https://resumemaker-dmtr.onrender.com/api/:splat"
   status = 200
 
 [[redirects]]
