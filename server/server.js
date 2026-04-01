@@ -16,6 +16,19 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Resume Maker API Server',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth/signup, /api/auth/login, /api/auth/me'
+    }
+  });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 
