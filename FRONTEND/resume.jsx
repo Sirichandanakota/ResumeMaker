@@ -77,7 +77,10 @@ export default function App() {
 // --- UI COMPONENTS FOR MOCKUPS (Saves Code Length) ---
 const Mockup1Column = () => (
   <div className="absolute inset-0 w-[80%] mx-auto aspect-[1/1.4] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col transform -rotate-6 -translate-x-10 border border-gray-200 hover:rotate-0 hover:z-20 transition-all duration-500 ease-in-out cursor-default">
-     <div className="w-full bg-slate-800 p-4 text-center">
+     <div className="w-full bg-slate-800 p-4 text-center flex flex-col items-center">
+        <div className="w-12 h-12 rounded-full bg-slate-400 mb-2 mx-auto shadow-sm border-2 border-white overflow-hidden">
+           <img src="https://i.pravatar.cc/150?img=44" className="w-full h-full object-cover" alt="" />
+        </div>
         <div className="w-1/2 h-2.5 bg-white rounded mx-auto mb-2"></div>
         <div className="w-3/4 flex justify-center gap-2 mx-auto">
            <div className="w-1/4 h-1.5 bg-slate-500 rounded"></div>
@@ -157,16 +160,22 @@ const Mockup2Column = () => (
 
 const TemplateCard1Column = () => (
   <div className="h-56 bg-slate-100 flex items-center justify-center p-6 border-b border-slate-100">
-    <div className="w-full h-full bg-white shadow-sm p-4 space-y-4 flex flex-col border border-gray-300 items-center justify-center rounded-sm overflow-hidden relative">
-        <div className="w-full bg-slate-800 p-3 flex flex-col items-center justify-center absolute top-0 left-0 right-0 h-16">
-           <div className="w-10 h-10 rounded-full bg-white mb-1 shadow-sm absolute -bottom-5 border-2 border-slate-200"></div>
+    <div className="w-full h-full bg-white shadow-lg border border-gray-300 rounded-sm overflow-hidden flex flex-col relative">
+      {/* Dark Header */}
+      <div className="w-full bg-slate-900 h-24 relative flex items-center justify-center">
+        {/* Profile Circle Positioned at Bottom Edge */}
+        <div className="w-14 h-14 rounded-full bg-slate-300 border-4 border-white shadow-lg absolute bottom-0 translate-y-1/2 overflow-hidden flex items-center justify-center">
+          <img src="https://i.pravatar.cc/150?img=22" className="w-full h-full object-cover" alt="profile" />
         </div>
-        <div className="w-1/2 h-2 bg-slate-600 rounded mt-8"></div>
-        <div className="w-3/4 h-1.5 bg-slate-300 rounded mb-2"></div>
-        <div className="w-full border-t border-slate-200 pt-2 space-y-2">
-           <div className="w-full h-1.5 bg-slate-200 rounded"></div>
-           <div className="w-5/6 h-1.5 bg-slate-200 rounded"></div>
-        </div>
+      </div>
+
+      {/* Content Area */}
+      <div className="flex-1 p-5 pt-12 space-y-3 flex flex-col items-center">
+        <div className="w-2/3 h-2.5 bg-slate-400 rounded"></div>
+        <div className="w-full h-2 bg-slate-200 rounded"></div>
+        <div className="w-5/6 h-2 bg-slate-200 rounded"></div>
+        <div className="w-4/5 h-2 bg-slate-200 rounded"></div>
+      </div>
     </div>
   </div>
 );
@@ -195,42 +204,10 @@ function LoginPage({ onLogin, onSwitchToSignUp, onBack }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${apiUrl}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, name })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || 'Login failed');
-        return;
-      }
-
-      // Store token and user info
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('userEmail', data.user.email);
-      localStorage.setItem('userName', data.user.name);
-
-      // Call callback to update app state
-      onLogin(data.user.email, data.user.name);
-    } catch (err) {
-      setError('Server error. Please try again.');
-      console.error('Login error:', err);
-    } finally {
-      setLoading(false);
-    }
+    if (email && password && name) onLogin(email, name);
   };
 
   return (
@@ -261,26 +238,20 @@ function LoginPage({ onLogin, onSwitchToSignUp, onBack }) {
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-5">
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium flex items-start gap-2">
-                <AlertTriangle size={18} className="flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Full Name</label>
-              <input type="text" required value={name} onChange={(e) => setName(e.target.value)} disabled={loading} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white disabled:opacity-50 disabled:cursor-not-allowed" placeholder="Enter your full name" />
+              <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white" placeholder="Enter your full name" />
             </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Email Address</label>
-              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white disabled:opacity-50 disabled:cursor-not-allowed" placeholder="you@example.com" />
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white" placeholder="you@example.com" />
             </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Password</label>
-              <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} disabled={loading} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white disabled:opacity-50 disabled:cursor-not-allowed" placeholder="••••••••" />
+              <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white" placeholder="••••••••" />
             </div>
-            <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 px-4 rounded-xl flex items-center justify-center gap-2 transition-all mt-4 shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg disabled:hover:-translate-y-0">
-              {loading ? 'Signing In...' : 'Sign In'} {!loading && <ChevronRight size={20} />}
+            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 px-4 rounded-xl flex items-center justify-center gap-2 transition-all mt-4 shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5">
+              Sign In <ChevronRight size={20} />
             </button>
           </form>
           
@@ -297,42 +268,10 @@ function SignUpPage({ onSignUp, onSwitchToLogin, onBack }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${apiUrl}/api/auth/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || 'Signup failed');
-        return;
-      }
-
-      // Store token and user info
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('userEmail', data.user.email);
-      localStorage.setItem('userName', data.user.name);
-
-      // Call callback to update app state
-      onSignUp(data.user.email, data.user.name);
-    } catch (err) {
-      setError('Server error. Please try again.');
-      console.error('Signup error:', err);
-    } finally {
-      setLoading(false);
-    }
+    if (email && password && name) onSignUp(email, name);
   };
 
   return (
@@ -363,26 +302,20 @@ function SignUpPage({ onSignUp, onSwitchToLogin, onBack }) {
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium flex items-start gap-2">
-                <AlertTriangle size={18} className="flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Full Name</label>
-              <input type="text" required value={name} onChange={(e) => setName(e.target.value)} disabled={loading} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white disabled:opacity-50 disabled:cursor-not-allowed" placeholder="Enter your full name" />
+              <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white" placeholder="Enter your full name" />
             </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Email Address</label>
-              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white disabled:opacity-50 disabled:cursor-not-allowed" placeholder="you@example.com" />
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white" placeholder="you@example.com" />
             </div>
             <div>
               <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Password</label>
-              <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} disabled={loading} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white disabled:opacity-50 disabled:cursor-not-allowed" placeholder="••••••••" />
+              <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium bg-slate-50 focus:bg-white" placeholder="••••••••" />
             </div>
-            <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 px-4 rounded-xl flex items-center justify-center gap-2 transition-all mt-6 shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg disabled:hover:-translate-y-0">
-              {loading ? 'Creating Account...' : 'Sign Up'} {!loading && <ChevronRight size={20} />}
+            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 px-4 rounded-xl flex items-center justify-center gap-2 transition-all mt-6 shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5">
+              Sign Up <ChevronRight size={20} />
             </button>
           </form>
           
