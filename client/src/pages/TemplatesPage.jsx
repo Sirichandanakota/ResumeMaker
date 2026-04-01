@@ -64,15 +64,26 @@ export default function TemplatesPage({ onSelect, userEmail, userName, onLogout,
             onClick={() => onSelect('1-column')} 
             className="bg-white rounded-2xl shadow-lg border-4 border-blue-300 overflow-hidden cursor-pointer hover:shadow-[0_0_35px_rgba(37,99,235,0.5)] hover:-translate-y-1 transition-all duration-300 group"
           >
-            <div className="h-56 bg-slate-100 flex items-center justify-center p-6 border-b border-slate-100">
-              <div className="w-[80%] mx-auto aspect-[1/1.4] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col border border-gray-200">
-                <div className="w-full bg-slate-800 p-4 text-center">
-                  <div className="w-1/2 h-2.5 bg-white rounded mx-auto mb-2"></div>
+            <div className="h-56 bg-slate-50 flex items-center justify-center p-6 border-b border-slate-100">
+              <div className="w-full max-w-[240px] bg-white shadow-md border border-gray-200 rounded-sm overflow-hidden flex flex-col relative">
+                {/* Dark Top Header */}
+                <div className="w-full bg-slate-800 h-14 relative flex justify-center shrink-0">
+                  {/* Overlapping Profile Photo */}
+                  <div className="w-9 h-9 rounded-full bg-white absolute -bottom-4.5 shadow-sm border border-gray-100"></div>
                 </div>
-                <div className="p-5 space-y-5 flex-1">
-                  <div className="w-1/4 h-2 bg-slate-800 rounded mb-3 border-b border-slate-200 pb-1"></div>
-                  <div className="space-y-2">
-                    <div className="w-full h-1 bg-slate-300 rounded"></div>
+                
+                {/* Placeholder Content Details */}
+                <div className="flex-1 flex flex-col items-center justify-center px-4 pt-7 pb-4 w-full">
+                  {/* Name Line */}
+                  <div className="w-2/3 h-1.5 bg-slate-300 rounded-full mb-3"></div>
+                  
+                  {/* Divider */}
+                  <div className="w-full border-t border-slate-100 mb-3"></div>
+                  
+                  {/* Details Lines */}
+                  <div className="w-full flex flex-col gap-2 items-start">
+                    <div className="w-full h-1.5 bg-slate-200 rounded-full"></div>
+                    <div className="w-4/5 h-1.5 bg-slate-200 rounded-full"></div>
                   </div>
                 </div>
               </div>
