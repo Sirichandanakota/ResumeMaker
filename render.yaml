@@ -5,6 +5,12 @@ services:
     region: oregon
     rootDir: BACKEND
     plan: free
-    buildCommand: npm ci --legacy-peer-deps
+    buildCommand: npm ci --legacy-peer-deps && npm run build || true
     startCommand: npm start
     numInstances: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        scope: runtime
+        value: "5000"
