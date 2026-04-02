@@ -5,7 +5,7 @@ import TemplatesPage from './pages/TemplatesPage';
 import ResumeEditor from './pages/ResumeEditor';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('editor'); // direct editor
+  const [currentPage, setCurrentPage] = useState('login'); // direct editor
   const [template, setTemplate] = useState(null);
 
   // LOGIN
