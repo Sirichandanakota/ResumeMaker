@@ -46,7 +46,7 @@ export default function SignUpPage({ onSignUp, onSwitchToLogin }) {
           <User className="absolute left-3 top-3 text-gray-400" size={18} />
           <input
             type="text"
-            placeholder="Full Name"
+            placeholder="Enter your Full Name"
             className="w-full pl-10 p-3 border rounded"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -55,7 +55,7 @@ export default function SignUpPage({ onSignUp, onSwitchToLogin }) {
 
         <input
           type="email"
-          placeholder="Email"
+          placeholder="username@example.com"
           className="w-full mb-4 p-3 border rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -63,7 +63,7 @@ export default function SignUpPage({ onSignUp, onSwitchToLogin }) {
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Enter Password"
           className="w-full mb-4 p-3 border rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
