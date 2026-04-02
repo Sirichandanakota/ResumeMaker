@@ -6,50 +6,61 @@ import ResumeEditor from './pages/ResumeEditor';
 import Footer from './components/Footer';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  const [currentPage, setCurrentPage] = useState('login'); // ✅ start with login
   const [template, setTemplate] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const [userFullName, setUserFullName] = useState('');
-  const [userToken, setUserToken] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check if user is logged in on mount
+  // ✅ Check login from localStorage
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const email = localStorage.getItem('email');
+    const name = localStorage.getItem('name');
+
     if (token) {
-      setUserToken(token);
-      // Could verify token with API here if needed
-      // For now, we just check if token exists
+      setUserEmail(email || '');
+      setUserFullName(name || '');
+      setCurrentPage('templates'); // skip login
     }
+
     setIsLoading(false);
   }, []);
 
+  // ✅ LOGIN
   const handleLogin = (email, fullName) => {
+    localStorage.setItem('token', 'user-token');
+    localStorage.setItem('email', email);
+    localStorage.setItem('name', fullName);
+
     setUserEmail(email);
     setUserFullName(fullName);
     setCurrentPage('templates');
   };
 
+  // ✅ SIGNUP
   const handleSignUp = (email, fullName) => {
+    localStorage.setItem('token', 'user-token');
+    localStorage.setItem('email', email);
+    localStorage.setItem('name', fullName);
+
     setUserEmail(email);
     setUserFullName(fullName);
     setCurrentPage('templates');
   };
 
+  // ✅ LOGOUT
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('name');
+
     setUserEmail('');
     setUserFullName('');
-    setUserToken('');
-    setCurrentPage('home');
+    setCurrentPage('login');
   };
 
-  const handleNavigate = (page) => {
-    setCurrentPage(page);
-  };
-
-  const isAuthenticated = !!localStorage.getItem('token');
-
+  // ✅ LOADING SCREEN
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -58,39 +69,43 @@ export default function App() {
     );
   }
 
+  // ✅ LOGIN PAGE
   if (currentPage === 'login') {
     return (
-      <LoginPage 
+      <LoginPage
         onLogin={handleLogin}
         onSwitchToSignUp={() => setCurrentPage('signup')}
-        onBack={() => setCurrentPage('home')}
       />
     );
   }
 
+  // ✅ SIGNUP PAGE
   if (currentPage === 'signup') {
     return (
-      <SignUpPage 
+      <SignUpPage
         onSignUp={handleSignUp}
         onSwitchToLogin={() => setCurrentPage('login')}
-        onBack={() => setCurrentPage('home')}
       />
     );
   }
 
+  // ✅ TEMPLATE PAGE
   if (currentPage === 'templates') {
     return (
       <div className="flex flex-col min-h-screen">
         <div className="flex-grow">
-          <TemplatesPage 
+          <TemplatesPage
             userEmail={userEmail}
-            userName={userFullName ? userFullName.split(' ')[0] : userEmail?.split('@')[0] || 'User'}
+            userName={
+              userFullName
+                ? userFullName.split(' ')[0]
+                : userEmail?.split('@')[0] || 'User'
+            }
             onSelect={(tmpl) => {
               setTemplate(tmpl);
               setCurrentPage('editor');
             }}
             onLogout={handleLogout}
-            onBack={() => setCurrentPage('home')}
           />
         </div>
         <Footer />
@@ -98,9 +113,10 @@ export default function App() {
     );
   }
 
+  // ✅ EDITOR PAGE
   if (currentPage === 'editor') {
     return (
-      <ResumeEditor 
+      <ResumeEditor
         key={template}
         template={template}
         userFullName={userFullName}
@@ -110,16 +126,10 @@ export default function App() {
     );
   }
 
+  // ✅ FALLBACK (never blank)
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-grow">
-        <HomePage 
-          userEmail={userEmail}
-          onLogout={handleLogout}
-          onNavigate={handleNavigate}
-        />
-      </div>
-      <Footer />
+    <div className="min-h-screen flex items-center justify-center">
+      <h1>Loading...</h1>
     </div>
   );
 }
