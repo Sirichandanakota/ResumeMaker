@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import LoginPage from './components/LoginPage'
 import SignUpPage from './components/SignUpPage'
+import Resume from './resume.jsx'   
 import './App.css'
 
 function App() {
@@ -29,33 +30,31 @@ function App() {
 
   return (
     <div className="app">
+
+      {/* LOGIN */}
       {currentPage === 'login' && (
         <LoginPage 
           onLogin={handleLogin}
           onSwitchPage={handleSwitchPage}
         />
       )}
+
+      {/* SIGNUP */}
       {currentPage === 'signup' && (
         <SignUpPage 
           onSignUp={handleSignUp}
           onSwitchPage={handleSwitchPage}
         />
       )}
+
+      {/* 🚀 RESUME BUILDER */}
       {currentPage === 'templates' && (
-        <div className="templates-page">
-          <div className="navbar">
-            <h1>ResumeMaker</h1>
-            <div>
-              <span>Welcome, {user?.name}</span>
-              <button onClick={handleLogout}>Logout</button>
-            </div>
-          </div>
-          <div className="templates-container">
-            <h2>Select a Resume Template</h2>
-            <p>Templates coming soon...</p>
-          </div>
-        </div>
+        <Resume 
+          user={user}
+          onLogout={handleLogout}
+        />
       )}
+
     </div>
   )
 }
