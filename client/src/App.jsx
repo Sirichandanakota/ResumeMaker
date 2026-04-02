@@ -9,24 +9,28 @@ export default function App() {
   const [template, setTemplate] = useState(null);
 
   // LOGIN
-  if (currentPage === 'login') {
-    return (
-      <LoginPage
-        onLogin={() => setCurrentPage('templates')}
-        onSwitchToSignUp={() => setCurrentPage('signup')}
-      />
-    );
-  }
+ if (currentPage === 'login') {
+  return (
+    <LoginPage
+      onLogin={(email, name) => {
+        setCurrentPage('templates');
+      }}
+      onSwitchToSignUp={() => setCurrentPage('signup')}
+    />
+  );
+}
 
   // SIGNUP
-  if (currentPage === 'signup') {
-    return (
-      <SignUpPage
-        onSignUp={() => setCurrentPage('templates')}
-        onSwitchToLogin={() => setCurrentPage('login')}
-      />
-    );
-  }
+ if (currentPage === 'signup') {
+  return (
+    <SignUpPage
+      onSignUp={(email, name) => {
+        setCurrentPage('templates');
+      }}
+      onSwitchToLogin={() => setCurrentPage('login')}
+    />
+  );
+}
 
   // TEMPLATES
   if (currentPage === 'templates') {
