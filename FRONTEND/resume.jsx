@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { User, Briefcase, Code, Mail, Phone, MapPin, Link2, Award, CheckCircle, Plus, Trash2, FileText, ArrowLeft, Image as ImageIcon, Download, Lock, ChevronRight, GripVertical, Eye, EyeOff, AlertTriangle, LogOut, Undo2, Redo2, X } from 'lucide-react';
-
+ 
 export default function App() {
   const [authState, setAuthState] = useState('home'); // 'home', 'login', 'signup', 'templates', 'editor'
   const [template, setTemplate] = useState(null);
