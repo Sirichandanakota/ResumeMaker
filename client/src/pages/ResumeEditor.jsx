@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { User, Briefcase, Code, Mail, Phone, MapPin, Link2, Award, CheckCircle, Plus, Trash2, FileText, ArrowLeft, Image as ImageIcon, Download, Lock, ChevronRight, GripVertical, Eye, EyeOff, AlertTriangle, LogOut, Undo2, Redo2, X } from 'lucide-react';
+import { User, Briefcase, Code, Mail, Phone, MapPin, Link2, Award, CheckCircle, Plus, Trash2, FileText, ArrowLeft, Image as ImageIcon, Download, Lock, ChevronRight, GripVertical, Eye, EyeOff, AlertTriangle, LogOut, Undo2, Redo2, X, RefreshCw, Heart } from 'lucide-react';
 
 export default function App() {
   const [authState, setAuthState] = useState('home'); // 'home', 'login', 'signup', 'templates', 'editor'
@@ -319,6 +319,45 @@ function SignUpPage({ onSignUp, onSwitchToLogin, onBack }) {
   );
 }
 
+// --- REUSABLE FOOTER COMPONENT ---
+function Footer() {
+  return (
+    <footer className="bg-slate-900 border-t border-slate-800 text-slate-300 py-12 mt-auto relative z-20 w-full">
+      <div className="max-w-7xl mx-auto px-6 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+          <div className="flex flex-col items-center md:items-start">
+            <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center mb-4">
+              <Award size={24} />
+            </div>
+            <h3 className="text-white font-bold text-lg mb-2">Professional Templates</h3>
+            <p className="text-sm leading-relaxed text-slate-400">Stand out with modern, customized layouts designed to highlight your strengths.</p>
+          </div>
+          <div className="flex flex-col items-center md:items-start">
+            <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center mb-4">
+              <CheckCircle size={24} />
+            </div>
+            <h3 className="text-white font-bold text-lg mb-2">Fast & Intuitive</h3>
+            <p className="text-sm leading-relaxed text-slate-400">Build and customize your resume in minutes with our simple, real-time interactive editor.</p>
+          </div>
+          <div className="flex flex-col items-center md:items-start">
+            <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center mb-4">
+              <Download size={24} />
+            </div>
+            <h3 className="text-white font-bold text-lg mb-2">Instant PDF Export</h3>
+            <p className="text-sm leading-relaxed text-slate-400">Download your perfectly formatted resume instantly in high-quality PDF format.</p>
+          </div>
+        </div>
+        <div className="mt-12 pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-slate-500">@ 2026 ResumeMaker. All rights reserved.</p>
+          <p className="text-sm text-slate-400 flex items-center gap-1.5 font-medium">
+            Made with <Heart size={16} className="text-red-400" /> by Resume Maker Team
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 // --- 2. HOME PAGE (Landing) ---
 function HomePage({ userEmail, onLogout, onNavigate }) {
   const handleCreateCV = () => {
@@ -380,6 +419,7 @@ function HomePage({ userEmail, onLogout, onNavigate }) {
           <Mockup2Column />
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
@@ -387,7 +427,7 @@ function HomePage({ userEmail, onLogout, onNavigate }) {
 // --- 3. TEMPLATES SELECTION PAGE ---
 function TemplatesPage({ onSelect, userEmail, userName, onLogout, onBack }) {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans relative overflow-x-hidden">
       <div className="absolute inset-0 z-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #cbd5e1 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-300 rounded-full -z-10 blur-[120px] opacity-30 pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-yellow-200 rounded-full -z-10 blur-[120px] opacity-30 pointer-events-none"></div>
@@ -440,6 +480,7 @@ function TemplatesPage({ onSelect, userEmail, userName, onLogout, onBack }) {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
