@@ -3,32 +3,38 @@ name: Deploy to Netlify
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      
-      - name: Install Frontend Dependencies
-        run: cd FRONTEND && npm install
-      
-      - name: Build Frontend
-        run: cd FRONTEND && npm run build
+
+      # ✅ INSTALL DEPENDENCIES (FIXED)
+      - name: Install Client Dependencies
+        run: |
+          cd client
+          npm install
+
+      # ✅ BUILD PROJECT (FIXED)
+      - name: Build Client
+        run: |
+          cd client
+          npm run build
         env:
           VITE_API_URL: https://resume-maker-backend.onrender.com
-      
+
+      # ✅ DEPLOY (FIXED PATH)
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0
         with:
-          publish-dir: './FRONTEND/dist'
+          publish-dir: './client/dist'
           production-branch: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: 'Deploy from GitHub Actions'
