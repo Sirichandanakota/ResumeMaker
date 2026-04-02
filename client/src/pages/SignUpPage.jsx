@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { User, ChevronRight, ArrowLeft, Award } from 'lucide-react';
-import { authAPI } from '../services/api';
 
 export default function SignUpPage({ onSignUp, onSwitchToLogin }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      alert("Fill all fields");
+      alert("Please fill all fields");
       return;
     }
 
@@ -20,17 +19,13 @@ export default function SignUpPage({ onSignUp, onSwitchToLogin }) {
       return;
     }
 
-    try {
-      const res = await authAPI.signup(name, email, password);
+    // ✅ store user locally
+    const user = { name, email, password };
+    localStorage.setItem('user', JSON.stringify(user));
 
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify({ name, email }));
+    alert("Signup successful ✅");
 
-      onSignUp(email, name);
-
-    } catch (err) {
-      alert(err.response?.data?.error || "Signup failed");
-    }
+    onSignUp(email, name);
   };
 
   return (
@@ -38,14 +33,14 @@ export default function SignUpPage({ onSignUp, onSwitchToLogin }) {
 
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-md w-96">
 
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex justify-between mb-6">
           <button type="button" onClick={onSwitchToLogin}>
             <ArrowLeft />
           </button>
           <Award className="text-blue-600" />
         </div>
 
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
 
         <div className="relative mb-4">
           <User className="absolute left-3 top-3 text-gray-400" size={18} />
@@ -79,7 +74,6 @@ export default function SignUpPage({ onSignUp, onSwitchToLogin }) {
         </button>
 
       </form>
-
     </div>
   );
 }
